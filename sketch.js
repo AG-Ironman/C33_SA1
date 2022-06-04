@@ -59,8 +59,18 @@ function preload()
 
 function setup() 
 {
-  
-  createCanvas(500,700);
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    canW = displayWidth;
+    canH = displayHeight;
+    createCanvas(canW,canH);
+  }
+  else {
+    canW = windowWidth;
+    canH = windowHeight;
+    createCanvas(canW,canH);
+  }
+
   
   frameRate(80);
 
@@ -78,13 +88,13 @@ function setup()
 
    //btn 2
    button2 = createImg('cut_btn.png');
-   button2.position(330,35);
+   button2.position(canW/4,35);
    button2.size(60,60);
    button2.mouseClicked(drop2);
  
    //btn3
    button3 = createImg('cut_btn.png');
-   button3.position(360,200);
+   button3.position(canW/4 + 50,canH/3);
    button3.size(60,60);
    button3.mouseClicked(drop3);
 
@@ -94,14 +104,14 @@ function setup()
   mute_btn.mouseClicked(mute);
   
   rope = new Rope(8,{x:40,y:30});
-  rope2 = new Rope(7,{x:370,y:40});
-  rope3 = new Rope(4,{x:400,y:225});
+  rope2 = new Rope(7,{x:canW/4 + 25,y:40});
+  rope3 = new Rope(4,{x:canW/4 + 120,y:canH/3 + 20});
 
-  ground = new Ground(200,690,600,20);
+  ground = new Ground(canW/2,canH,canW,20);
   blink.frameDelay = 20;
   eat.frameDelay = 20;
 
-  bunny = createSprite(170,620,100,100);
+  bunny = createSprite(170,canH-80,100,100);
   bunny.scale = 0.2;
 
   bunny.addAnimation('blinking',blink);
@@ -125,7 +135,7 @@ function setup()
 function draw() 
 {
   background(51);
-  image(bg_img,0,0);
+  image(bg_img,0,0,canW,canH);
 
   push();
   imageMode(CENTER);
